@@ -107,13 +107,23 @@ if st.button("Predict"):
 
     st.write(advice)
 
-# Calculate SHAP values and display force plot
-    explainer = shap.TreeExplainer(model)
-    shap_values = explainer.shap_values(pd.DataFrame([feature_values], columns=feature_names))
+# # Calculate SHAP values and display force plot
+#     explainer = shap.TreeExplainer(model)
+#     shap_values = explainer.shap_values(pd.DataFrame([feature_values], columns=feature_names))
 
-# Save the SHAP force plot to a file
-    shap.force_plot(explainer.expected_value[1], shap_values[1][0], feature_names, matplotlib=True)
-    plt.savefig("shap_force_plot.png", bbox_inches='tight', dpi=1200)
+# # Save the SHAP force plot to a file
+#     shap.force_plot(explainer.expected_value[1], shap_values[1][0], feature_names, matplotlib=True)
+#     plt.savefig("shap_force_plot.png", bbox_inches='tight', dpi=1200)
 
-# Display the SHAP force plot in Streamlit
-    st.image("shap_force_plot.png")
+# # Display the SHAP force plot in Streamlit
+#     st.image("shap_force_plot.png")
+
+
+# 计算SHAP值并显示力图
+explainer = shap.TreeExplainer(model)  # 初始化一个SHAP树解释器
+shap_values = explainer.shap_values(pd.DataFrame([feature_values], columns=feature_names))  # 计算SHAP值
+
+# 绘制SHAP力图
+shap.force_plot(explainer.expected_value, shap_values[0], pd.DataFrame([feature_values], columns=feature_names), matplotlib=True)
+plt.savefig("shap_force_plot.png", bbox_inches='tight', dpi=1200)  # 将力图保存为PNG文件
+st.image("shap_force_plot.png")  # 在Streamlit应用中显示保存的力图
